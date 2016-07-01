@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="   
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd   
+   		 http://www.springframework.org/schema/context 
+   		 http://www.springframework.org/schema/context/spring-context-3.1.xsd   
+   		 http://www.springframework.org/schema/aop 
+         http://www.springframework.org/schema/aop/spring-aop-3.1.xsd   
+         http://www.springframework.org/schema/mvc 
+         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd 
+         http://www.springframework.org/schema/tx 
+         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+         http://www.springframework.org/schema/cache 
+         http://www.springframework.org/schema/cache/spring-cache.xsd" >
+
+	<context:component-scan base-package="com.bohan.admin" />  
+
+	<!-- ���Դ -->
+	<!-- 
+		<property name="url" value="jdbc:mysql://183.131.6.2:33066/ggcj_dts_tracker?useUnicode=true&amp;characterEncoding=utf-8"/>
+		<property name="username" value="user_www1" />
+		<property name="password" value="user_www1user_www1" />
+		<property name="url" value="jdbc:mysql://172.16.0.199:33066/ggcj_dts_tracker?useUnicode=true&amp;characterEncoding=utf-8"/>
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	 -->
+	
+	<!-- ���Դ������C3p0l�ӳ� -->
+	<bean id="hxDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://172.16.0.199:33066/stock_pool?useUnicode=true&amp;characterEncoding=utf-8"/>
+		<!-- �û���Default: null -->
+		<property name="user" value="root" />
+		<!-- ���롣Default: null -->
+		<property name="password" value="root" />
+		<!-- ��ʼ��ʱ��ȡ���l�ӣ�ȡֵӦ��minPoolSize��maxPoolSize֮�䡣Default: 3 -->
+		<property name="initialPoolSize" value="3" />
+		<!-- l�ӳ��б�������l����Default: 15 -->
+		<property name="maxPoolSize" value="15"/>
+		<!-- ��l�ӳ��е�l�Ӻľ���ʱ��c3p0һ��ͬʱ��ȡ��l����Default: 3 -->
+		<property name="acquireIncrement" value="3"/>
+		<!-- ÿ30��������l�ӳ��еĿ���l�ӡ�Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="30"/>
+		<!-- c3p0����һ����ΪTest�Ŀձ?��ʹ�����Դ�Ĳ�ѯ�����в��ԡ����������������ô ����preferredTestQuery�������ԡ�
+			  �㲻��������Test���Ͻ����κβ�����ֻ��c3p0���� ʹ�á�Default: null -->
+		<property name="automaticTestTable" value="c3p0_test_table"/>
+		<!-- ��������l�Ӳ��Զ�ִ�еĲ�����䡣��ʹ��l�Ӳ��Ե���������һ������߲����ٶȡ�ע�⣺ ���Եı�����ڳ�ʼ���Դ��ʱ��ʹ��ڡ�Default: null -->
+		<property name="preferredTestQuery" value="select * from c3p0_test_table limit 1"/>
+		<!-- �����ڴ���ݿ��ȡ��l��ʧ�ܺ��ظ����ԵĴ���Default: 30 -->
+		<property name="acquireRetryAttempts" value="30"/>
+		<!-- }��l���м��ʱ�䣬��λ���롣Default: 1000 -->
+		<property name="acquireRetryDelay" value="1000"/>
+		<!-- l�ӹر�ʱĬ�Ͻ�����δ�ύ�Ĳ���ع�Default: false -->
+		<property name="autoCommitOnClose" value="false"/>
+		<!-- ��ȡl��ʧ�ܽ����������еȴ�l�ӳ�4��ȡl�ӵ��߳��׳��쳣���������Դ����Ч ��������´ε���getConnection()��ʱ������Ի�ȡl�ӡ�
+			  �����Ϊtrue����ô�ڳ��� ��ȡl��ʧ�ܺ�����Դ�������ѶϿ����>ùرա�Default: false -->
+		<property name="breakAfterAcquireFailure" value="false"/>
+		<!-- ��l�ӳ�����ʱ�ͻ��˵���getConnection()��ȴ��ȡ��l�ӵ�ʱ�䣬��ʱ���׳� SQLException,����Ϊ0�������ڵȴ�λ���롣Default: 0 -->
+		<property name="checkoutTimeout" value="10000"/>
+		<!-- ͨ��ʵ��ConnectionTester��QueryConnectionTester����4����l�ӡ��������ƶ�ȫ·���� 
+			  Default: com.mchange.v2.c3p0.impl.DefaultConnectionTester -->
+		<property name="connectionTesterClassName" value="com.mchange.v2.c3p0.impl.DefaultConnectionTester"/>
+		<!-- ָ��c3p0 libraries��·�������ͨ�����������ڱ��ؼ��ɻ����ô�������ã�Ĭ��null���� Default: null -->
+		<property name="factoryClassLocation" value="null"/>
+		<!-- ������ʱ��,60����δʹ����l�ӱ�������Ϊ0���2�����Default: 0 -->
+		<property name="maxIdleTime" value="90"/>
+		<!-- JDBC�ı�׼�������Կ������Դ�ڼ��ص�PreparedStatements����������Ԥ�����statements ���ڵ���connection�������l�ӳء�����������������Ҫ���ǵ��෽������ء� 
+			  ���maxStatements��maxStatementsPerConnection��Ϊ0���򻺴汻�رա�Default: 0 -->
+		<property name="maxStatements" value="0"/>
+		<!-- maxStatementsPerConnection������l�ӳ��ڵ���l����ӵ�е���󻺴�statements��Default: 0 -->
+		<property name="maxStatementsPerConnection" value="0"/>
+		<!-- c3p0���첽����ģ������JDBC����ͨ���������ɡ�)չ��Щ���������Ч���������� ͨ����߳�ʵ�ֶ�����ͬʱ��ִ�С�Default: 3 -->
+		<property name="numHelperThreads" value="5"/>
+		<!-- �û��޸�ϵͳ���ò���ִ��ǰ���ȴ�300�롣Default: 300 -->
+		<property name="propertyCycle" value="300"/>
+	</bean>
+	
+	<!-- mybaits ��ݹ��� -->
+	<bean id="hxSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="hxDataSource" />
+		
+		<property name="configLocation" value="classpath:mybatis-stock.xml"/>
+		<property name="mapperLocations" value="classpath*:com/bohan/admin/mapper/*.mapper.xml" />
+	</bean>
+	
+	<!-- ��ݿ����� -->
+	<bean id="hxTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="hxDataSource" />  
+	</bean>
+	<tx:annotation-driven transaction-manager="hxTransactionManager" proxy-target-class="true"/> 
+		
+	<!-- �Զ�ɨ�� -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.bohan.admin.dao" />
+		<property name="sqlSessionFactory" ref="hxSessionFactory" />
+	</bean>
+	
+</beans>  

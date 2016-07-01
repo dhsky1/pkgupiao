@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS\} [%t] %-30c{1} %-5p - %m%n" />
+			<!-- %-5p %d{yyyy/MM/dd HH:mm:ss.SSS} %t %-20C{1}:%4L %m%n -->
+		</layout>
+	</appender>
+
+	<appender name="TrackerLogs" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${logpath}/tracker.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{MMdd HH:mm:ss SSS\} %-5p] [%t] %c - %m%n" />
+			<!-- %t %d{yyMMdd HH:mm:ss.SSS} %C{1} [%-5p] %m%n -->
+		</layout>
+	</appender>
+	<appender name="TaskLogs" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${logpath}/task_logs.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS\} [%t] %c %-5p - %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="com.ggcj">
+		<level value="info"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="com.ggcj.tzjy">
+		<level value="debug"/>
+		<appender-ref ref="TaskLogs"/>
+	</logger>
+	<logger name="org.springframework">
+		<level value="info"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="org.apache.ibatis">
+		<level value="debug"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="org.mybatis.spring">
+		<level value="debug"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="com.mchange">
+		<level value="info"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="java.sql">
+		<level value="debug"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="org.quartz">
+		<level value="info"/>
+		<appender-ref ref="TrackerLogs"/>
+	</logger>
+	<logger name="com.ggcj.dts.task.stockpool.dao" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="Console"/>
+	</logger>
+
+	<root>
+		<level value="INFO"/>
+		<appender-ref ref="Console"/>
+	</root>
+</log4j:configuration>

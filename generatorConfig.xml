@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+		PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry location="E:\maven\repository\mysql\mysql-connector-java\5.1.26\mysql-connector-java-5.1.26.jar" />
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+		<!-- <plugin type="com.guagua.generate.MyPlus" />  -->
+
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+						<!--connectionURL="jdbc:mysql://192.168.1.26/ggcj-portal?useUnicode=true&amp;characterEncoding=utf-8"-->
+						<!--userId="root" password="771019">-->
+		<!--</jdbcConnection>-->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+						connectionURL="jdbc:mysql://172.16.0.199:33066/stock_pool?useUnicode=true&amp;characterEncoding=utf-8"
+						userId="root" password="root">
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator
+				targetPackage="com.bohan.admin.model"
+				targetProject="E:\java\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator
+				targetPackage="com.bohan.admin.mapper"
+				targetProject="E:\java\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER"
+							 targetPackage="com.bohan.admin.dao"
+							 targetProject="E:\java\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<table tableName="sys_role" domainObjectName="SysRole" >
+		<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />
+		</table>
+
+
+		<!--<table tableName="t_hx_order" domainObjectName="Order" >-->
+			<!--<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />-->
+		<!--</table>-->
+		<!--<table tableName="t_hx_pro_details" domainObjectName="ProDetails" >-->
+			<!--<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />-->
+		<!--</table>-->
+		<!--<table tableName="t_hx_pro_stock" domainObjectName="Stock" >-->
+			<!--<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />-->
+		<!--</table>-->
+		<!--<table tableName="t_hx_product" domainObjectName="Product" >-->
+			<!--<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />-->
+		<!--</table>-->
+		<!--<table tableName="t_hx_stock_opinion" domainObjectName="StockOpinion" >-->
+			<!--<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />-->
+		<!--</table>-->
+		<!--<table tableName="t_hx_user" domainObjectName="User" >-->
+			<!--<generatedKey column="id" sqlStatement="SELECT @@IDENTITY" identity="true" />-->
+		<!--</table>-->
+
+	</context>
+
+</generatorConfiguration>

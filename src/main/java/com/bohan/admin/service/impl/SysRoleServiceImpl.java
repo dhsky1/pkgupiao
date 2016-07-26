@@ -25,15 +25,16 @@ public class SysRoleServiceImpl implements SysRoleService {
 	public QueryResult<SysRole> queryScrollData(
 			Map<String, Object> queryParams, int firstindex, int maxresult) {
 		QueryResult<SysRole> qr = new QueryResult<SysRole>();
-		SysRoleCriteria example = new SysRoleCriteria();
-		
+		SysRoleCriteria criteria = new SysRoleCriteria();
+		SysRoleCriteria.Criteria cri = criteria.createCriteria();
+		cri.andRoleNameLike("%"+queryParams.get("roleName").toString()+"%");
 		try{
-		int totalRecored = sysRoleMapper.countByExample(example );
+		int totalRecored = sysRoleMapper.countByExample(criteria );
 		if(totalRecored == 0){
 			return qr;
 		}
 		PageHelper.startPage(firstindex, maxresult, true);
-		List<SysRole> lstRecords = sysRoleMapper.selectByExample(example);
+		List<SysRole> lstRecords = sysRoleMapper.selectByExample(criteria);
 		qr.setTotalrecord(totalRecored);
 		qr.setResultlist(lstRecords);
 		}catch (Exception e) {

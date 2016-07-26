@@ -1,12 +1,18 @@
 jQuery(function($){
-
+	$('#editBtn').click(function(){
+		var roleName = $("#editDialog").find("input[name='roleName']").val();
+		var remark = $("#editDialog").find("input[name='remark']").val();
+		
+		console.log(roleName+remark);
+	});
 
 });
 
 function getParams(){
- 	console.log(pageIndex);
+ 	//console.log(pageIndex);
+	var roleName = $("#showCount1").val();
  	var params = {
- 			roleid:1,
+ 			roleName:roleName,
  			type:0,
  			pageIndex:pageIndex,
  			pageSize:pageSize
@@ -43,7 +49,10 @@ function createBody(obj){
     mainObj.empty();
     mainObj.html(html.join(''));
 }
-
+function search(){
+	
+	AjaxGetData(1,5);
+}
 function gotoNewPage(){
 	window.location.href='/admin/roleadd.html';
 }

@@ -34,7 +34,7 @@ public class SysRoleController {
 	
 	@ResponseBody
 	@RequestMapping(value="/list")
-	public void list(HttpServletRequest request, HttpServletResponse response, @RequestParam long roleid,  @RequestParam int  type) throws IOException{
+	public void list(HttpServletRequest request, HttpServletResponse response, @RequestParam String roleName,  @RequestParam int  type) throws IOException{
 		int pageIndex = RequestUtil.getInt(request, "pageIndex");
 		if(pageIndex == 0) {
 			pageIndex = 1;
@@ -42,10 +42,12 @@ public class SysRoleController {
 		int pageSize = RequestUtil.getInt(request, "pageSize");
 		if(pageSize == 0) {
 			pageSize = 10;
-		}			
+		}
+
 		PageView<SysRole> pageView = new PageView <SysRole>(pageSize,pageIndex);
 		
 		Map<String, Object> queryParams = new HashMap<String, Object>();
+		queryParams.put("roleName", roleName);
 		pageView.setQueryResult(sysRoleService.queryScrollData(queryParams, pageView.getCurrentpage(), pageView.getMaxresult()));
 		
 		PageUtil.toJSON(response, pageView);
